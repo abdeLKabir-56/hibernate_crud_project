@@ -4,7 +4,6 @@
 
 
 
-
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -29,7 +28,7 @@
 	<section id="sidebar">
 		<a href="#" class="brand">
 			<i class='bx bxs-smile'></i>
-			<span class="text">AdminHub</span>
+			<span class="text">admin dashboard</span>
 		</a>
 		<ul class="side-menu top">
 			<li class="active">
@@ -39,15 +38,15 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="#stagiaires-table">
 					<i class='bx bxs-shopping-bag-alt' ></i>
-					<span class="text">My Store</span>
+					<span class="text">Stagiaires</span>
 				</a>
 			</li>
 			<li>
 				<a href="#">
 					<i class='bx bxs-doughnut-chart' ></i>
-					<span class="text">Analytics</span>
+					<span class="text">statistiques</span>
 				</a>
 			</li>
 			<li>
@@ -88,9 +87,9 @@
 		<nav>
 			<i class='bx bx-menu' ></i>
 			<a href="#" class="nav-link">Categories</a>
-			<form action="#" id="search">
+			<form action="search" id="search" method="post">
 				<div class="form-input">
-					<input type="search" placeholder="Search...">
+					<input type="search" placeholder="Search..." name="searchInput">
 					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
 				</div>
 			</form>
@@ -131,28 +130,28 @@
 				<li>
 					<i class='bx bxs-calendar-check' ></i>
 					<span class="text">
-						<h3>1020</h3>
-						<p>New Order</p>
+						<h3><%= request.getAttribute("count") %></h3>
+						<p>stagiares</p>
 					</span>
 				</li>
 				<li>
 					<i class='bx bxs-group' ></i>
 					<span class="text">
-						<h3>2834</h3>
-						<p>Visitors</p>
+						<h3>1</h3>
+						<p>stages</p>
 					</span>
 				</li>
 				<li>
 					<i class='bx bxs-dollar-circle' ></i>
 					<span class="text">
-						<h3>$2543</h3>
-						<p>Total Sales</p>
+						<h3>6</h3>
+						<p>encadrant</p>
 					</span>
 				</li>
 			</ul>
 
 
-			<div class="table-data">
+			<div class="table-data" id="stagiaires-table">
 				<div class="order">
 					<div class="head">
 						<h3>liste des stagiares</h3>

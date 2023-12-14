@@ -52,7 +52,8 @@ public class UserServlet extends HttpServlet {
 	 */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getServletPath();
-
+		int count = userDao.countUsers();
+		request.setAttribute("count", count);
         try {
             switch (action) {
                 case "/new":
@@ -72,6 +73,8 @@ public class UserServlet extends HttpServlet {
                     break;
                 case "/view":
                     viewUser(request, response);
+                case "/search":
+                	searchUser(request, response);
                     break;
                 case "/generate-pdf":
                     generatePdfAndRespond(request, response);
@@ -83,6 +86,7 @@ public class UserServlet extends HttpServlet {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        
 	}
 	public void listUser(HttpServletRequest request, HttpServletResponse response)
 		    throws SQLException, IOException, ServletException {
@@ -91,7 +95,28 @@ public class UserServlet extends HttpServlet {
 		        RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
 		        dispatcher.forward(request, response);
 		    }
+	public void searchUser(HttpServletRequest request, HttpServletResponse response)
+	        throws SQLException, IOException, ServletException {
+	    String search = request.getParameter("searchInput");
 
+	    List<User> searchResults = userDao.searchUser(search);
+
+	    // Handle potential errors from DAO
+	    /*if (searchResults == null) {
+	        // Show error message or handle appropriately
+	        request.setAttribute("errorMessage", "User search failed");
+	        RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
+	        dispatcher.forward(request, response);
+	        return;
+	    }*/
+
+	    // Store search results and redirect to list page
+	    request.setAttribute("listUser", searchResults);
+	    RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
+	    dispatcher.forward(request, response);
+	}
+	
+  
 	public void showNewForm(HttpServletRequest request, HttpServletResponse response)
 		    throws ServletException, IOException {
 		        RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
@@ -164,6 +189,7 @@ public class UserServlet extends HttpServlet {
 		            response.getWriter().write("Error generating PDF");
 		        }
 		    }
+		    
 
 		    private void generatePdf(List<User> userList, OutputStream outputStream) {
 		        Document document = new Document();

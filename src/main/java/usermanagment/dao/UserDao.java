@@ -6,6 +6,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.SharedSessionContract;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import com.mysql.cj.util.StringUtils;
 
 import usermanagment.util.HibernateUtil;
 import usermanagment.model.User;
@@ -107,4 +110,38 @@ public class UserDao {
         }
         return listOfUser;
     }
+    public List<User> searchUser(String search) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            System.out.println("SessionFactory obtained successfully");
+            Transaction transaction = null;
+            List<User> listOfUser = null;
+            if (StringUtils.isNullOrEmpty(search)) {
+                // Return all users if no search parameter provided
+                return session.createQuery("from User", User.class).getResultList();
+            }
+            // Build dynamic query based on search parameter
+            String queryString = "from User u where u.name like :search or u.email like :search";
+            Query query = session.createQuery(queryString);
+            query.setParameter("search", "%" + search + "%");
+            return query.getResultList();
+        
+    }
+    }
+    public int countUsers() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            System.out.println("SessionFactory obtained successfully");
+            Transaction transaction = null;
+            List<User> listOfUser = null;
+            
+            // Build dynamic query based on search parameter
+            String queryString = "select count(*) from User";
+            Query query = session.createQuery(queryString);
+            
+            Integer count = (int) ((Long) query.uniqueResult()).longValue();
+            
+             return count;
+        
+    }
+    }
 }
+
