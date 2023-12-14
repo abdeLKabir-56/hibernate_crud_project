@@ -13,6 +13,16 @@
   <display-name>hibernate_crud_exemple</display-name>
   <welcome-file-list>
     <welcome-file>user-form.jsp</welcome-file>
-    
   </welcome-file-list>
+  
+  <servlet>
+    <description></description>
+    <display-name>generatePdf</display-name>
+    <servlet-name>generatePdf</servlet-name>
+    <servlet-class>usermanagment.web.generatePdf</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>generatePdf</servlet-name>
+    <url-pattern>/generatePdf</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -1,6 +1,13 @@
 package usermanagment.web;
+import java.io.OutputStream;
 
 import jakarta.servlet.RequestDispatcher;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +19,7 @@ import usermanagment.model.User;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+
 
 /**
  * Servlet implementation class UserServlet
@@ -64,6 +72,9 @@ public class UserServlet extends HttpServlet {
                     break;
                 case "/view":
                     viewUser(request, response);
+                    break;
+                case "/generate-pdf":
+                    generatePdfAndRespond(request, response);
                     break;
                 default:
                     listUser(request, response);
@@ -133,6 +144,66 @@ public class UserServlet extends HttpServlet {
 		        int id = Integer.parseInt(request.getParameter("id"));
 		        userDao.deleteUser(id);
 		        response.sendRedirect("list");
+		    }
+		    private void generatePdfAndRespond(HttpServletRequest request, HttpServletResponse response)
+		            throws SQLException, IOException {
+		        List<User> listUser = userDao.getAllUser();
+
+		        // Set the response content type
+		        response.setContentType("application/pdf");
+
+		        // Set the header to force download
+		        response.setHeader("Content-Disposition", "attachment; filename=userList.pdf");
+
+		        try (OutputStream out = response.getOutputStream()) {
+		            generatePdf(listUser, out);
+		            out.flush();
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		            // Handle exception appropriately
+		            response.getWriter().write("Error generating PDF");
+		        }
+		    }
+
+		    private void generatePdf(List<User> userList, OutputStream outputStream) {
+		        Document document = new Document();
+
+		        try {
+		            PdfWriter.getInstance(document, outputStream);
+		            document.open();
+
+		            PdfPTable table = new PdfPTable(5);
+		            table.setWidthPercentage(100);
+
+		            addTableHeader(table);
+		            addRows(table, userList);
+
+		            document.add(table);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        } finally {
+		            document.close();
+		        }
+		    }
+
+		    private void addTableHeader(PdfPTable table) {
+		        String[] headers = {"ID", "Name", "Email", "Contact", "Actions"};
+		        for (String header : headers) {
+		            PdfPCell cell = new PdfPCell(new Paragraph(header));
+		            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+		            table.addCell(cell);
+		        }
+		    }
+
+		    private void addRows(PdfPTable table, List<User> userList) {
+		        for (User user : userList) {
+		            table.addCell(String.valueOf(user.getId()));
+		            table.addCell(user.getName());
+		            table.addCell(user.getEmail());
+		            table.addCell(user.getContact());
+		            // Add actions as needed
+		            table.addCell("");
+		        }
 		    }
 
 }

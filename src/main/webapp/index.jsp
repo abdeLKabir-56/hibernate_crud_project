@@ -1,10 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -13,14 +9,9 @@
 	<!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- My CSS -->
-	
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-		<title>User Management Application</title>
-	
-	 <style>
-     <%@ include file="dash.css"%>
-	</style>
+	<link rel="stylesheet" href="style.css">
+
+	<title>User Management Application</title>
 </head>
 <body>
 
@@ -71,7 +62,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="logout" class="logout">
+				<a href="#" class="logout">
 					<i class='bx bxs-log-out-circle' ></i>
 					<span class="text">Logout</span>
 				</a>
@@ -88,7 +79,7 @@
 		<nav>
 			<i class='bx bx-menu' ></i>
 			<a href="#" class="nav-link">Categories</a>
-			<form action="#" id="search">
+			<form action="#">
 				<div class="form-input">
 					<input type="search" placeholder="Search...">
 					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
@@ -121,7 +112,7 @@
 						</li>
 					</ul>
 				</div>
-				<a href="generate-pdf" class="btn-download">
+				<a href="#" class="btn-download">
 					<i class='bx bxs-cloud-download' ></i>
 					<span class="text">Download PDF</span>
 				</a>
@@ -155,14 +146,9 @@
 			<div class="table-data">
 				<div class="order">
 					<div class="head">
-						<h3>liste des stagiares</h3>
+						<h3>Recent Orders</h3>
 						<i class='bx bx-search' ></i>
-						<a href="search" style="text-decoration:none; color:gray;">
 						<i class='bx bx-filter' ></i>
-						</a>
-						<a href="new" style="text-decoration:none; color:gray;">
-						<i class='bx bxs-message-square-add'></i>
-						</a>
 					</div>
 					
 					<table>
